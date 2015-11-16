@@ -40,20 +40,21 @@ void shift::sall(int valuee){
   }
 }
 void shift::sh(int time, int poz){
-	
+	int x = 32; 
 	sall(HIGH);
 	if(poz == 1){
-  for(int i = _NUM_Pins - _NUM_Pins; i <= 15; i++){
+  for(int i = 0; i <=20; i++){
      sr(i,LOW);
 	 delay(time);
   }
 	}
 	else if(poz == 0){
-		for(int i = _NUM_Pins -1; i >=0; i--){
+	for(int i = _NUM_Pins -1; i >=0; i--){
      sr(i,LOW);
 	 delay(time);
   }
-		}
+  sall(HIGH);
+	}
 else{
 	sall(HIGH);
 }
