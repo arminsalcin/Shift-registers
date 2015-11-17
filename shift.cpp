@@ -10,11 +10,11 @@ Shift::Shift(int _SER_pin, int _RCLK_pin, int _SRCLK_pin, int _numberOfShifts) {
     pinMode(RCLK_pin, OUTPUT);
     pinMode(SRCLK_pin, OUTPUT);
 
-    clearRegisters();
-
     numberOfShifts = _numberOfShifts;
     numberOfPins = numberOfShifts * 8;
     registers = new bool[numberOfPins];
+
+    clearRegisters();
 }
 
 Shift::~Shift() {
