@@ -12,6 +12,7 @@ Shift::Shift(int _SER_pin, int _RCLK_pin, int _SRCLK_pin, int _numberOfShifts) {
 
     clearRegisters();
 
+    numberOfShifts = _numberOfShifts;
     numberOfPins = numberOfShifts * 8;
     registers = new bool[numberOfPins];
 }
