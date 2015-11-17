@@ -2,8 +2,6 @@
 #include "shift.h"
 
 Shift::Shift(int _SER_pin, int _RCLK_pin, int _SRCLK_pin, int _numberOfShifts) {
-    clearRegisters();
-
     SER_pin = _SER_pin;
     RCLK_pin = _RCLK_pin;
     SRCLK_pin = _SRCLK_pin;
@@ -11,6 +9,8 @@ Shift::Shift(int _SER_pin, int _RCLK_pin, int _SRCLK_pin, int _numberOfShifts) {
     pinMode(SER_pin, OUTPUT);
     pinMode(RCLK_pin, OUTPUT);
     pinMode(SRCLK_pin, OUTPUT);
+
+    clearRegisters();
 
     numberOfPins = numberOfShifts * 8;
     registers = new bool[numberOfPins];
