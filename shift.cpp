@@ -1,63 +1,78 @@
 #include "Arduino.h"
 #include "shift.h"
 
-shift::shift(int SER_Pin,int RCLK_Pin,int SRCLK_Pin,int NUM_Shift)
-{
-  pinMode(SER_Pin, OUTPUT);
-  pinMode(RCLK_Pin, OUTPUT);
-  pinMode(SRCLK_Pin, OUTPUT);
-  cr();
-  _SER_Pin = SER_Pin;
-  _RCLK_Pin = RCLK_Pin;
-  _SRCLK_Pin = SRCLK_Pin;
-  _NUM_Pins = NUM_Shift * 8;
-  _registers = new bool[_NUM_Pins]; // A onda ovjde kazemo da je to ustvari array sa _NUM_Pins size
-}
-void shift::cr(){
-  sall(HIGH);
-  }
+Shift::Shift(int _SER_pin, int _RCLK_pin, int _SRCLK_pin, int _numberOfShifts) {
+    clearRegisters();
 
-void shift::wr(){
-  int i;
-  digitalWrite(_RCLK_Pin, LOW);
-  for(int i = _NUM_Pins - 1; i >=  0; i--){
-    digitalWrite(_SRCLK_Pin, LOW);
-    int val = _registers[i];
-    digitalWrite(_SER_Pin, val);
-    digitalWrite(_SRCLK_Pin, HIGH);
-  }
-  digitalWrite(_RCLK_Pin, HIGH);
-}
-void shift::sr(int index, int value){
-  _registers[index] = value;
-   wr();
+    SER_pin = _SER_pin;
+    RCLK_pin = _RCLK_pin;
+    SRCLK_pin = _SRCLK_pin;
+
+    pinMode(SER_pin, OUTPUT);
+    pinMode(RCLK_pin, OUTPUT);
+    pinMode(SRCLK_pin, OUTPUT);
+
+    numberOfPins = numberOfShifts * 8;
+    registers = new bool[numberOfPins];
 }
 
-void shift::sall(int valuee){
-  for(int i = _NUM_Pins - 1; i >=  0; i--){
-     _registers[i] = valuee;
-	 wr();
-  }
+Shift::~Shift() {
+    delete[] registers;
 }
-void shift::sh(int time, int poz){
-	int x = _NUM_Pins; 
-	sall(HIGH);
-	if(poz == 1){
-  for(int i = 0; i <=x; i++){
-     sr(i,LOW);
-	 delay(time);
-	 sr(i,HIGH);
-  }
-	}
-	else if(poz == 0){
-	for(int i = _NUM_Pins -1; i >=0; i--){
-     sr(i,LOW);
-	 delay(time);
-	 sr(i,HIGH);
-  }
-  sall(HIGH);
-	}
-else{
-	sall(HIGH);
+
+void Shift::clearRegisters() {
+    setAll(HIGH);
 }
+
+void Shift::writeRegisters() {
+    int i;
+
+    digitalWrite(RCLK_pin, LOW);
+
+    for (int i = numberOfPins - 1; i >= 0; i--) {
+        digitalWrite(SRCLK_pin, LOW);
+
+        int val = registers[i];
+
+        digitalWrite(SER_pin, val);
+        digitalWrite(SRCLK_pin, HIGH);
+    }
+
+    digitalWrite(RCLK_pin, HIGH);
+}
+
+void Shift::setRegister(int index, int value) {
+    registers[index] = value;
+    writeRegisters();
+}
+
+void Shift::setAll(int value) {
+    for (int i = numberOfPins - 1; i >= 0; i--) {
+        registers[i] = value;
+    }
+
+    writeRegisters();
+}
+
+void Shift::shiftOneByOne(int time, int position) {
+    setAll(HIGH);
+
+    if (position == 1) {
+        for (int i = 0; i <= numberOfPins; i++) {
+            setRegister(i, LOW);
+            delay(time);
+            setRegister(i, HIGH);
+        }
+    }
+    else if (position == 0) {
+        for (int i = numberOfPins - 1; i >= 0; i--) {
+            setRegister(i, LOW);
+            delay(time);
+            setRegister(i, HIGH);
+        }
+        setAll(HIGH);
+    }
+    else {
+        setAll(HIGH);
+    }
 }
