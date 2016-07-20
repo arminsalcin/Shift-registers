@@ -20,4 +20,4 @@ private:
   bool * _registers; // Posto ne znamo velicinu array-a na headeru definisemo ga kao pointer
 };
 
-#endif //SHIFT_H
+#endif //SHIFT_Hgfgfgf
