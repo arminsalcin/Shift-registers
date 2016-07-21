@@ -1,0 +1,25 @@
+#######################################
+# Syntax Coloring Map shift
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+shift	KEYWORD1	shift
+Shift	KEYWORD1	Shift
+
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+clearAll	KEYWORD2	
+setRegister	KEYWORD2
+setAll	KEYWORD2
+oneByOne	KEYWORD2
+	
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
