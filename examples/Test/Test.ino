@@ -9,5 +9,5 @@ void loop() {
 
 Shift.setRegister(5,1); //turn HIGH pin 5 on shift register
 delay(1000);
-Shift.setRegister(5,0);
+Shift.setRegister(5,0); //turn LOW pin 5 on shift register
 }
